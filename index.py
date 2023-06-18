@@ -48,7 +48,7 @@ app = Flask(__name__)
 #     return output_df.to_html(justify='center')
 
 @app.route('/generate_top_fantasy_teams')
-async def generate_top_fantasy_teams():
+def generate_top_fantasy_teams():
     print(request.args["cost"])
     generate_top_teams_and_write(float(request.args["cost"]), 3)
     return redirect("/", code=200) 
