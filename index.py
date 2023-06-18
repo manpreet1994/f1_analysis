@@ -6,21 +6,17 @@ Created on Fri Nov 26 17:34:57 2021
 @author: manpreet
 """
 
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response, redirect
 import time
 import json
 import requests
 import pandas as pd
 from datetime import datetime
+from fantasy_combinator import generate_top_teams_and_write, read_json, plot_fantasy_team_comparisons
+import asyncio
 
 pd.set_option('display.width', 1000)
 pd.set_option('colheader_justify', 'center')
-
-
-def save_json(json_name, data):
-    with open(json_name+'.json', 'w') as f:
-        json.dump(data, f)
-    print("saved ", json_name)
 
 #%%
 app = Flask(__name__)
@@ -51,18 +47,11 @@ app = Flask(__name__)
 #     # return Response(json.dumps({"status": "ok"}),status=200,  content_type='application/json')
 #     return output_df.to_html(justify='center')
 
-@app.route('/view_cost')
-def update():
-    drivers, teams, _ = get_latest_details()
-    combined_json = {}
-    for driver in drivers:
-        combined_json[driver] = drivers[driver]
-
-    for team in teams:
-        combined_json[team] = teams[team]
-    
-    return render_template('update_cost.html', jsonfile=json.dumps(combined_json))
-
+@app.route('/generate_top_fantasy_teams')
+async def generate_top_fantasy_teams():
+    print(request.args["cost"])
+    generate_top_teams_and_write(float(request.args["cost"]), 3)
+    return redirect("/", code=200) 
 
 # @app.route('/update', methods=['POST'])
 # def update_cost_price():
@@ -114,5 +103,20 @@ def team_per_race():
 @app.route('/team_per_race_per_cost')
 def team_per_race_per_cost():
     return render_template('team_per_race_per_cost.html')
+
+@app.route('/fantasy_entries')
+def fantasy_entries():
+    return read_json('data/fantasy_teams/entry') 
+
+@app.route('/fantasy_teams_comparison')
+def fantasy_team_comparisons():
+    print(request.args.get('cost_options', 100.0))
+    cost_for_fantasy = float(request.args.get('cost_options', 100.0))
+    print(cost_for_fantasy)
+    combos = read_json('data/fantasy_teams/fantasy_teams_{}'.format(cost_for_fantasy))
+    print(combos)
+    plot_fantasy_team_comparisons(combos['top_fantasy_teams'], cost_for_fantasy)
+    return render_template('fantasy_comparison_{}.html'.format(cost_for_fantasy))
+
 if __name__ == "__main__":
-    app.run(debug=False, host='0.0.0.0', port=5005)
+    app.run(debug=True, host='0.0.0.0', port=5005)

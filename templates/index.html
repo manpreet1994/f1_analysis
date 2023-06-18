@@ -1,19 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
     <title>F1 Analysis</title>
 </head>
 <body>
-	<div>
+	<script>
 
-	</div>
+    $(document).ready(function(){
+        $.getJSON("/fantasy_entries", function(data){
+        	$.each(data, function (key, entry) {
+    			$('#cost_options').append($('<option/>').attr('value', key).text(key));
+			})
+        }).fail(function(){
+            console.log("An error has occurred.");
+        });
+    });
+
+
+    </script>
 
 	<div>
 	<h2 style="text-align: center">F1 Analysis</h2>
-    <iframe src="/driver_per_race" width="1200" height="500" frameborder="0"></iframe>
-    <iframe src="/driver_per_race_per_cost" width="1200" height="500" frameborder="0"></iframe>
-    <iframe src="/team_per_race" width="1200" height="500" frameborder="0"></iframe>
-    <iframe src="/team_per_race_per_cost" width="1200" height="500" frameborder="0"></iframe>
+    <iframe src="/driver_per_race" width="1200" height="400" frameborder="0"></iframe>
+    <iframe src="/driver_per_race_per_cost" width="1200" height="400" frameborder="0"></iframe>
+    <iframe src="/team_per_race" width="1200" height="400" frameborder="0"></iframe>
+    <iframe src="/team_per_race_per_cost" width="1200" height="400" frameborder="0"></iframe>
 	</div>
+
+	<div>
+		<h2 style="text-align: center">Comparing fantasy teams</h2>
+		<form action="/fantasy_teams_comparison" style="text-align: center", method="GET", target="fantasy_teams">
+			  <label>Compare top 3 suggested teams with cost:</label>
+			  <select type="select" id="cost_options" name="cost_options">
+			  </select><br>
+			  <input type="submit" value="Compare">	
+		</form>
+		<iframe width="1200" height="400" frameborder="0" name= "fantasy_teams"></iframe>
+	</div>
+
+	<div>
+		<h2 style="text-align: center">Getting the data ready</h2>
+		<form action="/generate_top_fantasy_teams" style="text-align: center", method="GET">
+			  <label>Generate best teams suggestions:</label><br>
+			  <label for="Cost">Cost:</label><br>
+			  <input type="text" id="cost" name="cost"><br>
+			  <input type="submit" value="Generate">		
+		</form>
+	</div>
+
+	
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-cae0867604a83158b9f8aaff96ea683a"}, "mark": {"type": "line", "point": true}, "encoding": {"color": {"field": "team_id", "type": "nominal"}, "tooltip": [{"field": "cost", "type": "quantitative"}, {"field": "score", "type": "quantitative"}], "x": {"field": "race_no", "type": "nominal"}, "y": {"field": "score", "type": "quantitative"}}, "title": "Fantasy teams over the course of races", "width": 600, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-cae0867604a83158b9f8aaff96ea683a": [{"cost": 99.20000000000002, "driver_id": "fantasy_team_1", "score": 267.0, "team_id": "fantasy_team_1", "race_no": 1}, {"cost": 99.9, "driver_id": "fantasy_team_1", "score": 242.0, "team_id": "fantasy_team_1", "race_no": 2}, {"cost": 100.30000000000001, "driver_id": "fantasy_team_1", "score": 269.0, "team_id": "fantasy_team_1", "race_no": 3}, {"cost": 100.70000000000002, "driver_id": "fantasy_team_1", "score": 303.0, "team_id": "fantasy_team_1", "race_no": 4}, {"cost": 101.19999999999999, "driver_id": "fantasy_team_1", "score": 267.0, "team_id": "fantasy_team_1", "race_no": 5}, {"cost": 101.39999999999999, "driver_id": "fantasy_team_1", "score": 160.0, "team_id": "fantasy_team_1", "race_no": 6}, {"cost": 101.7, "driver_id": "fantasy_team_1", "score": 238.0, "team_id": "fantasy_team_1", "race_no": 7}, {"cost": 101.9, "driver_id": "fantasy_team_1", "score": 0.0, "team_id": "fantasy_team_1", "race_no": 8}, {"cost": 96.8, "driver_id": "fantasy_team_2", "score": 259.0, "team_id": "fantasy_team_2", "race_no": 1}, {"cost": 97.4, "driver_id": "fantasy_team_2", "score": 249.0, "team_id": "fantasy_team_2", "race_no": 2}, {"cost": 97.89999999999999, "driver_id": "fantasy_team_2", "score": 285.0, "team_id": "fantasy_team_2", "race_no": 3}, {"cost": 98.5, "driver_id": "fantasy_team_2", "score": 265.0, "team_id": "fantasy_team_2", "race_no": 4}, {"cost": 98.9, "driver_id": "fantasy_team_2", "score": 273.0, "team_id": "fantasy_team_2", "race_no": 5}, {"cost": 99.1, "driver_id": "fantasy_team_2", "score": 157.0, "team_id": "fantasy_team_2", "race_no": 6}, {"cost": 99.39999999999999, "driver_id": "fantasy_team_2", "score": 250.0, "team_id": "fantasy_team_2", "race_no": 7}, {"cost": 99.6, "driver_id": "fantasy_team_2", "score": 0.0, "team_id": "fantasy_team_2", "race_no": 8}, {"cost": 98.69999999999999, "driver_id": "fantasy_team_3", "score": 259.0, "team_id": "fantasy_team_3", "race_no": 1}, {"cost": 99.30000000000001, "driver_id": "fantasy_team_3", "score": 249.0, "team_id": "fantasy_team_3", "race_no": 2}, {"cost": 99.79999999999998, "driver_id": "fantasy_team_3", "score": 280.0, "team_id": "fantasy_team_3", "race_no": 3}, {"cost": 100.30000000000001, "driver_id": "fantasy_team_3", "score": 294.0, "team_id": "fantasy_team_3", "race_no": 4}, {"cost": 100.79999999999998, "driver_id": "fantasy_team_3", "score": 263.0, "team_id": "fantasy_team_3", "race_no": 5}, {"cost": 100.89999999999999, "driver_id": "fantasy_team_3", "score": 142.0, "team_id": "fantasy_team_3", "race_no": 6}, {"cost": 101.2, "driver_id": "fantasy_team_3", "score": 248.0, "team_id": "fantasy_team_3", "race_no": 7}, {"cost": 101.4, "driver_id": "fantasy_team_3", "score": 0.0, "team_id": "fantasy_team_3", "race_no": 8}, {"cost": 99.5, "driver_id": "your_team", "score": 268.0, "team_id": "your_team", "race_no": 1}, {"cost": 100.20000000000002, "driver_id": "your_team", "score": 226.0, "team_id": "your_team", "race_no": 2}, {"cost": 100.6, "driver_id": "your_team", "score": 299.0, "team_id": "your_team", "race_no": 3}, {"cost": 101.30000000000001, "driver_id": "your_team", "score": 296.0, "team_id": "your_team", "race_no": 4}, {"cost": 101.9, "driver_id": "your_team", "score": 269.0, "team_id": "your_team", "race_no": 5}, {"cost": 102.1, "driver_id": "your_team", "score": 144.0, "team_id": "your_team", "race_no": 6}, {"cost": 102.39999999999999, "driver_id": "your_team", "score": 255.0, "team_id": "your_team", "race_no": 7}, {"cost": 102.6, "driver_id": "your_team", "score": 0.0, "team_id": "your_team", "race_no": 8}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
