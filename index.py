@@ -10,42 +10,16 @@ from flask import Flask, render_template, request, Response, redirect
 import time
 import json
 import requests
+import os
 import pandas as pd
 from datetime import datetime
-from fantasy_combinator import generate_top_teams_and_write, read_json, plot_fantasy_team_comparisons
-import asyncio
-
-pd.set_option('display.width', 1000)
-pd.set_option('colheader_justify', 'center')
+from fantasy_combinator import (generate_top_teams_and_write, 
+    read_json, plot_fantasy_team_comparisons,
+    refresh_graphs
+    )
 
 #%%
 app = Flask(__name__)
-
-
-# parser = lambda date: datetime.strptime(date, '%d/%m/%y')
-# schedule = pd.read_csv('schedule.csv', parse_dates = ['dates'], date_parser = parser)
-
-#%%
-# @app.route('/combos', methods=['POST'])
-# def third_party_call():
-#     #send an acknowledgement
-#     drivers, teams, _ = get_latest_details()
-    
-#     exclude_drivers = request.form.getlist('exclude')
-#     cost = float(request.form.getlist('cost')[0])
-#     include_drivers = request.form.getlist('include')
-#     include_team = request.form.get('include_team')
-     
-#     combos = list_of_possible_players(drivers, teams, exclude_drivers, include_drivers, cost, include_team = include_team)
-    
-#     # import pdb;pdb.set_trace()
-    
-#     combos.sort(key= lambda x: (x[4],-x[5]), reverse=True)
-
-#     output_df = df_to_html(combos)
-   
-#     # return Response(json.dumps({"status": "ok"}),status=200,  content_type='application/json')
-#     return output_df.to_html(justify='center')
 
 @app.route('/generate_top_fantasy_teams')
 def generate_top_fantasy_teams():
@@ -53,36 +27,16 @@ def generate_top_fantasy_teams():
     generate_top_teams_and_write(float(request.args["cost"]), 3)
     return redirect("/", code=200) 
 
-# @app.route('/update', methods=['POST'])
-# def update_cost_price():
-#     teams_info = pd.read_csv('teams.csv')
-#     drivers_info = pd.read_csv('drivers.csv')
-#     drivers, teams, _ = get_latest_details()
-    
-#     for driver in drivers:
-#         this_driver_cost = request.form.get(driver + '_cost')
-#         this_driver_score = request.form.get(driver + '_score')
-#         this_driver_dnf = request.form.get(driver + '_dnf')
-#         #updating cost and score        
-#         drivers_info.loc[drivers_info.driver == driver, ['cost']] = this_driver_cost        
-#         drivers_info.loc[drivers_info.driver == driver, ['score']] = this_driver_score
-#         drivers_info.loc[drivers_info.driver == driver, ['dnf']] = this_driver_dnf
-
-        
-#     for team in teams:
-#         this_team_cost = request.form.get(team + '_cost')
-#         this_team_score = request.form.get(team + '_score')
-        
-#         #updating cost and score        
-#         teams_info.loc[teams_info.teams == team, ['cost']] = this_team_cost        
-#         teams_info.loc[teams_info.teams == team, ['score']] = this_team_score
-        
-            
-#     drivers_info.to_csv('drivers.csv', index=False)
-#     teams_info.to_csv('teams.csv', index=False)
-    
-#     return render_template('main_page.html')
-
+@app.route('/update_metadata', methods = ['POST'])
+def update_metadata():
+   if request.method == 'POST':
+      f = request.files['race_driver_metadata']
+      f.save(os.path.join("data",f.filename))
+      # return 'file uploaded successfully'
+      f = request.files['race_team_metadata']
+      f.save(os.path.join("data",f.filename))
+      refresh_graphs()
+      return redirect("/", code=200) 
 
 @app.route('/')
 def index(text=None):

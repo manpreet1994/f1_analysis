@@ -121,3 +121,58 @@ def plot_fantasy_team_comparisons(sorted_combo, cost):
 	color = "team_id:N",
 	tooltip = ['cost', 'score'])
 	plot.save('templates/fantasy_comparison_{}.html'.format(cost))
+
+def refresh_graphs():
+	driver_names = pd.read_csv('data/driver.csv') 
+	team_names = pd.read_csv('data/team.csv')
+
+	race_driver_data = pd.read_csv('data/race_driver_metadata.csv')
+	race_team_data = pd.read_csv('data/race_team_metadata.csv')
+
+	race_driver_data = race_driver_data[~pd.isna(race_driver_data.score)]
+	race_team_data = race_team_data[~pd.isna(race_team_data.score)]
+
+	combined_driver_data = race_driver_data.merge(driver_names)
+	combined_driver_data['score_per_cost'] = combined_driver_data['score']/combined_driver_data['cost']
+
+	combined_race_data = race_team_data.merge(team_names)
+	combined_race_data['score_per_cost'] = combined_race_data['score']/combined_race_data['cost']
+
+
+	my_selection = alt.selection_multi(fields=['driver_name'], bind="legend")
+	my_team_selection = alt.selection_multi(fields=['team_name'], bind="legend")
+
+
+	a = alt.Chart(combined_driver_data, width=800, title = "Total driver score per race").mark_line(point=True).encode(
+	    x = "race_no:N",
+	    y = "score",
+	    color = alt.condition(my_selection, 'driver_name:N', alt.value('lightgray')),
+	    tooltip = ["driver_name","score","cost"]
+	).add_selection(my_selection)
+
+	b = alt.Chart(combined_driver_data, width=800, title = "Total driver score per cost per race").mark_line(point=True).encode(
+	    x = "race_no:N",
+	    y = "score_per_cost",
+	    color = alt.condition(my_selection, 'driver_name:N', alt.value('lightgray')),
+	    tooltip = ["driver_name","score","cost"]
+	).add_selection(my_selection)
+
+
+	c = alt.Chart(combined_race_data, width=800, title = "Total team score per race").mark_line(point=True).encode(
+	    x = "race_no:N",
+	    y = "score",
+	    color = alt.condition(my_team_selection, 'team_name:N', alt.value('lightgray')),
+	    tooltip = ["team_name","score","cost"]
+	).add_selection(my_team_selection)
+
+	d = alt.Chart(combined_race_data, width=800, title = "Total team score per cost per race").mark_line(point=True).encode(
+		    x = "race_no:N",
+		    y = "score_per_cost",
+		    color = alt.condition(my_team_selection, 'team_name:N', alt.value('lightgray')),
+		    tooltip = ["team_name","score","cost"]
+		).add_selection(my_team_selection)
+
+	a.save(os.path.join("templates", "driver_per_race.html"))
+	b.save(os.path.join("templates", "driver_per_race_per_cost.html"))
+	c.save(os.path.join("templates", "team_per_race.html"))
+	d.save(os.path.join("templates", "team_per_race_per_cost.html"))

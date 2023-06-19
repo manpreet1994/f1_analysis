@@ -39,14 +39,25 @@
 		<iframe width="1200" height="400" frameborder="0" name= "fantasy_teams"></iframe>
 	</div>
 
-	<div>
+	<div style="text-align: center; border:1px solid black;">
 		<h2 style="text-align: center">Getting the data ready</h2>
 		<form action="/generate_top_fantasy_teams" style="text-align: center", method="GET">
 			  <label>Generate best teams suggestions:</label><br>
 			  <label for="Cost">Cost:</label><br>
 			  <input type="text" id="cost" name="cost"><br>
 			  <input type="submit" value="Generate">		
-		</form>
+		</form> <br>
+
+		 <form action = "/update_metadata" , method = "POST" style="text-align: center"
+         enctype = "multipart/form-data">
+         <label>Update drivers scores:</label>
+         <input type = "file" name = "race_driver_metadata" /><br><br>
+
+         <label>Update teams scores:</label>
+         <input type = "file" name = "race_team_metadata" /><br><br>
+
+         <input type = "submit"/>
+      	</form> 
 	</div>
 
 	
