@@ -89,6 +89,9 @@ def get_fantasy_team_scores(fantasy_team_1, id_no):
 	race_driver_data = pd.read_csv('data/race_driver_metadata.csv')
 	race_team_data = pd.read_csv('data/race_team_metadata.csv')
 
+	race_driver_data = race_driver_data[~pd.isna(race_driver_data.score)]
+	race_team_data = race_team_data[~pd.isna(race_team_data.score)]
+
     #drivers
 	abc = race_driver_data.merge(driver_names)
 	a = abc[abc['driver_name'].isin(fantasy_team_1[0:5])].groupby('race_no').sum()
