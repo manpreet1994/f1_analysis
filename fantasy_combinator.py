@@ -25,19 +25,19 @@ def save_json(json_name, data):
 
 def generate_top_teams_and_write(total_cost = 100, top_k = 3):
 
-	if not exists("data/fantasy_teams/entry.json"):
-		save_json("data/fantasy_teams/entry.json", {})
+	if not exists("../data/fantasy_teams/entry.json"):
+		save_json("../data/fantasy_teams/entry.json", {})
 
-	entries_json = read_json("data/fantasy_teams/entry")
+	entries_json = read_json("../data/fantasy_teams/entry")
 	entry_exists = True if str(round(float(total_cost), 2)) in entries_json.keys() else False
 
 	if not entry_exists:
 
-		driver_names = pd.read_csv('data/driver.csv') 
-		team_names = pd.read_csv('data/team.csv')
+		driver_names = pd.read_csv('../data/driver.csv') 
+		team_names = pd.read_csv('../data/team.csv')
 
-		race_driver_data = pd.read_csv('data/race_driver_metadata.csv')
-		race_team_data = pd.read_csv('data/race_team_metadata.csv')
+		race_driver_data = pd.read_csv('../data/race_driver_metadata.csv')
+		race_team_data = pd.read_csv('../data/race_team_metadata.csv')
 
 		race_driver_data = race_driver_data[~pd.isna(race_driver_data.score)]
 		race_team_data = race_team_data[~pd.isna(race_team_data.score)]
@@ -83,11 +83,11 @@ def generate_top_teams_and_write(total_cost = 100, top_k = 3):
 
 def get_fantasy_team_scores(fantasy_team_1, id_no):
 
-	driver_names = pd.read_csv('data/driver.csv') 
-	team_names = pd.read_csv('data/team.csv')
+	driver_names = pd.read_csv('../data/driver.csv') 
+	team_names = pd.read_csv('../data/team.csv')
 
-	race_driver_data = pd.read_csv('data/race_driver_metadata.csv')
-	race_team_data = pd.read_csv('data/race_team_metadata.csv')
+	race_driver_data = pd.read_csv('../data/race_driver_metadata.csv')
+	race_team_data = pd.read_csv('../data/race_team_metadata.csv')
 
 	race_driver_data = race_driver_data[~pd.isna(race_driver_data.score)]
 	race_team_data = race_team_data[~pd.isna(race_team_data.score)]
@@ -123,11 +123,14 @@ def plot_fantasy_team_comparisons(sorted_combo, cost):
 	plot.save('templates/fantasy_comparison_{}.html'.format(cost))
 
 def refresh_graphs():
-	driver_names = pd.read_csv('data/driver.csv') 
-	team_names = pd.read_csv('data/team.csv')
+	print("entered refreshed graphs")
+	driver_names = pd.read_csv('../data/driver.csv') 
+	team_names = pd.read_csv('../data/team.csv')
 
-	race_driver_data = pd.read_csv('data/race_driver_metadata.csv')
-	race_team_data = pd.read_csv('data/race_team_metadata.csv')
+	race_driver_data = pd.read_csv('../data/race_driver_metadata.csv')
+	race_team_data = pd.read_csv('../data/race_team_metadata.csv')
+
+	print("here")
 
 	race_driver_data = race_driver_data[~pd.isna(race_driver_data.score)]
 	race_team_data = race_team_data[~pd.isna(race_team_data.score)]
@@ -172,7 +175,7 @@ def refresh_graphs():
 		    tooltip = ["team_name","score","cost"]
 		).add_selection(my_team_selection)
 
-	a.save(os.path.join("templates", "driver_per_race.html"))
-	b.save(os.path.join("templates", "driver_per_race_per_cost.html"))
-	c.save(os.path.join("templates", "team_per_race.html"))
-	d.save(os.path.join("templates", "team_per_race_per_cost.html"))
+	a.save(os.path.join("templates", "driver_teams","driver_per_race.html"))
+	b.save(os.path.join("templates", "driver_teams","driver_per_race_per_cost.html"))
+	c.save(os.path.join("templates", "driver_teams","team_per_race.html"))
+	d.save(os.path.join("templates", "driver_teams","team_per_race_per_cost.html"))
