@@ -43,6 +43,12 @@ def update_metadata():
       refresh_graphs()
       return redirect("/home", code=200) 
 
+@app.route('/update_free_practice', methods = ['POST'])
+def update_free_practice():
+    f = request.files['free_practice_metadata']
+    f.save(os.path.join("../data",f.filename))
+    return redirect("/home")
+
 @app.route('/')
 @app.route('/home')
 def index(text=None):
