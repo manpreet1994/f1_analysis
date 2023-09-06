@@ -18,6 +18,7 @@ from fantasy_combinator import (generate_top_teams_and_write,
     refresh_graphs
     )
 from model_training import train
+PASS = "8960"
 
 #%%
 app = Flask(__name__)
@@ -34,22 +35,28 @@ def generate_top_fantasy_teams():
 
 @app.route('/update_metadata', methods = ['POST'])
 def update_metadata():
-   if request.method == 'POST':
-
-      f = request.files['race_driver_metadata']
-      f.save(os.path.join("../data",f.filename))
-      # return 'file uploaded successfully'
-      f = request.files['race_team_metadata']
-      f.save(os.path.join("../data",f.filename))
-      refresh_graphs()
-      return redirect("/home", code=200) 
+    if request.method == 'POST':
+        if request.form.get("psw") == PASS:
+            f = request.files['race_driver_metadata']
+            f.save(os.path.join("../data",f.filename))
+            # return 'file uploaded successfully'
+            f = request.files['race_team_metadata']
+            f.save(os.path.join("../data",f.filename))
+            refresh_graphs()
+            return redirect("/home", code=200) 
+        else:
+            return redirect("/home", code=400) 
 
 @app.route('/update_free_practice', methods = ['POST'])
 def update_free_practice():
-    f = request.files['free_practice_metadata']
-    f.save(os.path.join("../data",f.filename))
-    train()
-    return redirect("/home")
+    passwd = request.form.get('psw')
+    if passwd == PASS:
+        f = request.files['free_practice_metadata']
+        f.save(os.path.join("../data",f.filename))
+        train()
+        return redirect("/home", code=200)
+    else:
+        return redirect("/home", code=400)
 
 @app.route('/')
 @app.route('/home')
