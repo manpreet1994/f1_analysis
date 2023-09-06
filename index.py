@@ -17,6 +17,7 @@ from fantasy_combinator import (generate_top_teams_and_write,
     read_json, plot_fantasy_team_comparisons,
     refresh_graphs
     )
+from model_training import train
 
 #%%
 app = Flask(__name__)
@@ -47,6 +48,7 @@ def update_metadata():
 def update_free_practice():
     f = request.files['free_practice_metadata']
     f.save(os.path.join("../data",f.filename))
+    train()
     return redirect("/home")
 
 @app.route('/')
