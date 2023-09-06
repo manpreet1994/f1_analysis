@@ -2,10 +2,52 @@
 <html>
 <head>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
-    <title>F1 Analysis</title>
+    <title>F1 Combinator</title>
+	<style>
+		body {font-family: Arial;}
+		
+		/* Style the tab */
+		.tab {
+		  overflow: hidden;
+		  border: 1px solid #ccc;
+		  background-color: #f1f1f1;
+		}
+		
+		/* Style the buttons inside the tab */
+		.tab button {
+		  background-color: inherit;
+		  float: left;
+		  border: none;
+		  outline: none;
+		  cursor: pointer;
+		  padding: 14px 16px;
+		  transition: 0.3s;
+		  font-size: 17px;
+		}
+		
+		/* Change background color of buttons on hover */
+		.tab button:hover {
+		  background-color: #ddd;
+		}
+		
+		/* Create an active/current tablink class */
+		.tab button.active {
+		  background-color: #ccc;
+		}
+		
+		/* Style the tab content */
+		.tabcontent {
+		  display: none;
+		  padding: 6px 12px;
+		  border: 1px solid #ccc;
+		  border-top: none;
+		}
+		</style>
 </head>
 <body>
 	<script>
+	// Get the element with id="defaultOpen" and click on it
+	document.getElementById("defaultOpen").click();
 
     $(document).ready(function(){
         $.getJSON("/fantasy_entries", function(data){
@@ -17,37 +59,52 @@
         });
     });
 
+	function openPage(evt, pageName) {
+	// Declare all variables
+	var i, tabcontent, tablinks;
+
+	// Get all elements with class="tabcontent" and hide them
+	tabcontent = document.getElementsByClassName("tabcontent");
+	for (i = 0; i < tabcontent.length; i++) {
+		tabcontent[i].style.display = "none";
+	}
+
+	// Get all elements with class="tablinks" and remove the class "active"
+	tablinks = document.getElementsByClassName("tablinks");
+	for (i = 0; i < tablinks.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" active", "");
+	}
+
+	// Show the current tab, and add an "active" class to the button that opened the tab
+	document.getElementById(pageName).style.display = "block";
+	evt.currentTarget.className += " active";
+	}
+
 
     </script>
 
-	<div>
-	<h2 style="text-align: center">F1 Analysis</h2>
-    <iframe src="/driver_per_race" width="1200" height="400" frameborder="0"></iframe>
-    <iframe src="/driver_per_race_per_cost" width="1200" height="400" frameborder="0"></iframe>
-    <iframe src="/team_per_race" width="1200" height="400" frameborder="0"></iframe>
-    <iframe src="/team_per_race_per_cost" width="1200" height="400" frameborder="0"></iframe>
+	<div class="tab">
+		<button class="tablinks" onclick="openPage(event, 'Predictions')">Predictions</button>
+		<button class="tablinks" onclick="openPage(event, 'Analysis')", id="defaultOpen">Analysis</button>
+		<button class="tablinks" onclick="openPage(event, 'Upload')">Upload</button>
 	</div>
 
-	<div>
-		<h2 style="text-align: center">Comparing fantasy teams</h2>
-		<form action="/fantasy_teams_comparison" style="text-align: center", method="GET", target="fantasy_teams">
-			  <label>Compare top 3 suggested teams with cost:</label>
-			  <select type="select" id="cost_options" name="cost_options">
-			  </select><br>
-			  <input type="submit" value="Compare">	
-		</form>
-		<iframe width="1200" height="400" frameborder="0" name= "fantasy_teams"></iframe>
+	<!-- Tab content -->
+	<div id="Predictions" class="tabcontent">
+		<h3>Predictions</h3>
+		<p>Coming soon</p>
 	</div>
-
-	<div style="text-align: center; border:1px solid black;">
+	
+	<div id="Analysis" class="tabcontent">
+		<h2 style="text-align: center">F1 Analysis</h2>
+		<iframe src="/driver_per_race" width="1200" height="400" frameborder="0"></iframe>
+		<iframe src="/driver_per_race_per_cost" width="1200" height="400" frameborder="0"></iframe>
+		<iframe src="/team_per_race" width="1200" height="400" frameborder="0"></iframe>
+		<iframe src="/team_per_race_per_cost" width="1200" height="400" frameborder="0"></iframe>
+	</div>
+	
+	<div id="Upload" class="tabcontent">
 		<h2 style="text-align: center">Getting the data ready</h2>
-		<form action="/generate_top_fantasy_teams" style="text-align: center", method="GET">
-			  <label>Generate best teams suggestions:</label><br>
-			  <label for="Cost">Cost:</label><br>
-			  <input type="text" id="cost" name="cost"><br>
-			  <input type="submit" value="Generate">		
-		</form> <br>
-
 		 <form action = "/update_metadata" , method = "POST" style="text-align: center"
          enctype = "multipart/form-data">
          <label>Update drivers scores:</label>
@@ -58,8 +115,6 @@
 
          <input type = "submit"/>
       	</form> 
-	</div>
-
-	
+	</div>	
 </body>
 </html>
