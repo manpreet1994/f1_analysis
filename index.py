@@ -86,14 +86,14 @@ def driver_latest_cost():
     latest_cost_df = race_driver_data[race_driver_data.race_no == max(race_driver_data.race_no)]
     latest_cost_df = latest_cost_df.merge(driver_names)
     final_json = [{"id":k+"_cost", "cost": v} for k,v in zip(latest_cost_df['driver_name'], latest_cost_df['cost'])]
-    return final_json
+    return {"response" : final_json}
 
 @app.route('/get_free_practice')
 def get_free_practice():
     free_practice_data = pd.read_csv('../data/free_practice_metadata.csv')
     free_practice_data = free_practice_data[free_practice_data.race_no == max(free_practice_data.race_no)]
     final_json = [{"fp1_id":d+"_fp1", "fp1_score": fp1, "fp2_id":d+"_fp2", "fp2_score": fp2 ,"fp3_id":d+"_fp3", "fp3_score": fp3} for d,fp1,fp2,fp3 in zip(free_practice_data['driver_name'], free_practice_data['fp1'], free_practice_data['fp2'], free_practice_data['fp3'])]
-    return final_json
+    return {"response" : final_json}
 
 
 @app.route('/predict', methods = ['POST'])
@@ -124,7 +124,7 @@ def make_prediction():
         "cost": cost_list
     })
     y_pred = predict(prediction_df)
-    return [{"id":k+"_pred", "pred":v } for k,v in zip(driver_names.driver_name, y_pred)]
+    return {"prediction" : [{"id":k+"_pred", "pred":v } for k,v in zip(driver_names.driver_name, y_pred)]}
 
 @app.route('/fantasy_teams_comparison')
 def fantasy_team_comparisons():

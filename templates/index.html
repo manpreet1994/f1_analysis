@@ -53,7 +53,7 @@
 
 	$(document).ready(function(){
         $.getJSON("/driver_latest_cost", function(data){
-        	$.each(data, function (key, entry) {
+        	$.each(data.response, function (key, entry) {
 				document.getElementById(entry.id).value = entry.cost
 			})
         }).fail(function(){
@@ -61,7 +61,7 @@
         });
 
 		$.getJSON("/get_free_practice", function(data){
-        	$.each(data, function (key, entry) {
+        	$.each(data.response, function (key, entry) {
 				document.getElementById(entry.fp1_id).value = entry.fp1_score
 				document.getElementById(entry.fp2_id).value = entry.fp2_score
 				document.getElementById(entry.fp3_id).value = entry.fp3_score
@@ -79,7 +79,7 @@
 			data : training_data,
 			type : 'POST',
 			success : function(response){
-				$.each(response, function (key, entry) {
+				$.each(response.prediction, function (key, entry) {
 				document.getElementById(entry.id).value = entry.pred
 			})
 			}
