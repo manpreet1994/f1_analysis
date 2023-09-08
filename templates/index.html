@@ -120,7 +120,7 @@
 	<!-- Tab content -->
 	<div id="Predictions" class="tabcontent">
 		<h3>Predictions</h3>
-		<form id= "prediction_form" onclick="submitForPrediction()">
+		<form id= "prediction_form">
 		<table style="width:70%">
 			<tr>
 			  <th>Driver</th>
@@ -292,7 +292,7 @@
 			  <td><input id="oco_pred" name = "oco_pred" type="text" readonly> </input></td>
 			</tr>
 		  </table>
-		  <input type="button" value="Predict"></input>
+		  <input type="button" value="Predict" onClick="submitForPrediction()"></input>
 		</form>
 	</div>
 	
