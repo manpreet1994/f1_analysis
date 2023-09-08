@@ -46,3 +46,9 @@ def train_model(training_df):
 def train():
     raw_data = pd.read_csv("../data/free_practice_metadata.csv")
     train_model(raw_data)
+
+def predict(X_test):
+    model = read_pickle()
+    y_pred = model.predict(X_test[['fp1', 'fp2', 'fp3', 'cost']])
+
+    return [give_labels(x) for x in y_pred]
