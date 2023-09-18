@@ -34,10 +34,20 @@ def update_metadata():
     if request.method == 'POST':
         if request.form.get("psw") == PASS:
             f = request.files['race_driver_metadata']
+            # remove if file exists
+            if os.path.exists(os.path.join("../data",f.filename)):
+                os.remove(os.path.join("../data",f.filename))
+
             f.save(os.path.join("../data",f.filename))
-            # return 'file uploaded successfully'
+
             f = request.files['race_team_metadata']
+            #remove old file if exists
+            if os.path.exists(os.path.join("../data",f.filename)):
+                os.remove(os.path.join("../data",f.filename))
+
             f.save(os.path.join("../data",f.filename))
+
+            #update the graphs
             refresh_graphs()
             return redirect("/home", code=200) 
         else:
