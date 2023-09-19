@@ -14,26 +14,26 @@ def read_pickle():
     return model
 
 def binnning_scores(score):
-    if score >= 25:
+    if score >= 20:
         return 2
-    elif score >= 12:
+    elif score >= 10:
         return 1
     else:
         return 0
 
 def give_labels(category):
     if category == 0:
-        return "below 12"
+        return "below 10"
     elif category == 1:
-        return "between 12 - 25"
+        return "between 10 - 20"
     else:
-        return "more than 25"
+        return "more than 20"
 
 def train_model(training_df):
     train_data = training_df[(training_df.race_no != 12)]
-    train_data = train_data.fillna(0)
+    train_data = train_data.fillna(20)
     train_data['score_bin'] = train_data.score.apply(binnning_scores)
-    X = train_data[['fp1', 'fp2', 'fp3', 'cost']]
+    X = train_data[['fp1', 'fp2', 'fp3']]
     Y = train_data['score_bin']
 
     #create model
@@ -49,6 +49,6 @@ def train():
 
 def predict(X_test):
     model = read_pickle()
-    y_pred = model.predict(X_test[['fp1', 'fp2', 'fp3', 'cost']])
+    y_pred = model.predict(X_test[['fp1', 'fp2', 'fp3']])
 
     return [give_labels(x) for x in y_pred]
