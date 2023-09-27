@@ -7,7 +7,13 @@
     <title>F1 Combinator</title>
 	<style>
 		body {font-family: Arial;}
-		
+		.input-box{
+  	 	  width:35px
+		}
+		.prediction_box{
+			width:125px
+		}
+
 		/* Style the tab */
 		.tab {
 		  overflow: hidden;
@@ -44,13 +50,15 @@
 		  border: 1px solid #ccc;
 		  border-top: none;
 		}
+		/*driver names */
+		.active{
+			background-color: #ccc;
+		}
 		</style>
 </head>
 <body>
 	<script>
 	// Get the element with id="defaultOpen" and click on it
-	// document.getElementById("defaultOpen").click();
-
 	$(document).ready(function(){
         $.getJSON("/driver_latest_cost", function(data){
         	$.each(data.response, function (key, entry) {
@@ -86,7 +94,14 @@
 		});
 
 	};
-	
+
+	$(function() {
+    $('td').click(function() {
+			$('tr').removeClass('active');
+			$(this).parent().addClass('active'); 
+    	});
+	});
+
 	function openPage(evt, pageName) {
 	// Declare all variables
 	var i, tabcontent, tablinks;
@@ -113,7 +128,7 @@
 
 	<div class="tab">
 		<button class="tablinks" onclick="openPage(event, 'Predictions')">Predictions</button>
-		<button class="tablinks" onclick="openPage(event, 'Analysis')", id="defaultOpen">Analysis</button>
+		<button id="defaultOpen" class="tablinks" onclick="openPage(event, 'Analysis')">Analysis</button>
 		<button class="tablinks" onclick="openPage(event, 'Upload')">Upload</button>
 	</div>
 
@@ -121,175 +136,175 @@
 	<div id="Predictions" class="tabcontent">
 		<h3>Predictions</h3>
 		<form id= "prediction_form">
-		<table style="width:70%">
+		<table style="width:30%">
 			<tr>
 			  <th>Driver</th>
-			  <th style="width:20%">FP1</th>
+			  <th>FP1</th>
 			  <th>FP2</th>
 			  <th>FP3</th>
 			  <th>Cost</th>
 			  <th>Predictions</th>
 			</tr>
 			<tr>
-			  <td>Max Verstappen</td>
-			  <td><input id="max_fp1" name = "max_fp1" type="text" required> </input></td>
-			  <td><input id="max_fp2" name = "max_fp2" type="text" required> </input></td>
-			  <td><input id="max_fp3" name = "max_fp3" type="text" required> </input></td>
-			  <td><input id="max_cost" name = "max_cost" type="text" required> </input></td>
-			  <td><input id="max_pred" name = "max_pred" type="text" readonly> </input></td>
+			  <td >Max Verstappen</td>
+			  <td><input id="max_fp1" class="input-box" name = "max_fp1" type="text" required> </input></td>
+			  <td><input id="max_fp2" name = "max_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="max_fp3" name = "max_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="max_cost" name = "max_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="max_pred" name = "max_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Fernando Alonso</td>
-			  <td><input id="alo_fp1" name = "alo_fp1" type="text" required> </input></td>
-			  <td><input id="alo_fp2" name = "alo_fp2" type="text" required> </input></td>
-			  <td><input id="alo_fp3" name = "alo_fp3" type="text" required> </input></td>
-			  <td><input id="alo_cost" name = "alo_cost" type="text" required> </input></td>
-			  <td><input id="alo_pred" name = "alo_pred" type="text" readonly> </input></td>
+			  <td >Fernando Alonso</td>
+			  <td><input id="alo_fp1" name = "alo_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="alo_fp2" name = "alo_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="alo_fp3" name = "alo_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="alo_cost" name = "alo_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="alo_pred" name = "alo_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			 <tr>
-			  <td>Sergio Perez</td>
-			  <td><input id="per_fp1" name = "per_fp1" type="text" required> </input></td>
-			  <td><input id="per_fp2" name = "per_fp2" type="text" required> </input></td>
-			  <td><input id="per_fp3" name = "per_fp3" type="text" required> </input></td>
-			  <td><input id="per_cost" name = "per_cost" type="text" required> </input></td>
-			  <td><input id="per_pred" name = "per_pred" type="text" readonly> </input></td>
+			  <td >Sergio Perez</td>
+			  <td><input id="per_fp1" name = "per_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="per_fp2" name = "per_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="per_fp3" name = "per_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="per_cost" name = "per_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="per_pred" name = "per_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Pierre Gasly</td>
-			  <td><input id="gas_fp1" name = "gas_fp1" type="text" required> </input></td>
-			  <td><input id="gas_fp2" name = "gas_fp2" type="text" required> </input></td>
-			  <td><input id="gas_fp3" name = "gas_fp3" type="text" required> </input></td>
-			  <td><input id="gas_cost" name = "gas_cost" type="text" required> </input></td>
-			  <td><input id="gas_pred" name = "gas_pred" type="text" readonly> </input></td>
+			  <td >Pierre Gasly</td>
+			  <td><input id="gas_fp1" name = "gas_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="gas_fp2" name = "gas_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="gas_fp3" name = "gas_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="gas_cost" name = "gas_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="gas_pred" name = "gas_pred" class="prediction_box" type="text" readonly> </input></td>
+			</tr>
+			<tr>
+			  <td >Carlos Sainz</td>
+			  <td><input id="sai_fp1" name = "sai_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="sai_fp2" name = "sai_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="sai_fp3" name = "sai_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="sai_cost" name = "sai_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="sai_pred" name = "sai_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			   <tr>
-			  <td>Carlos Sainz</td>
-			  <td><input id="sai_fp1" name = "sai_fp1" type="text" required> </input></td>
-			  <td><input id="sai_fp2" name = "sai_fp2" type="text" required> </input></td>
-			  <td><input id="sai_fp3" name = "sai_fp3" type="text" required> </input></td>
-			  <td><input id="sai_cost" name = "sai_cost" type="text" required> </input></td>
-			  <td><input id="sai_pred" name = "sai_pred" type="text" readonly> </input></td>
+			  <td >Lewis Hamilton</td>
+			  <td><input id="ham_fp1" name = "ham_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="ham_fp2" name = "ham_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="ham_fp3" name = "ham_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="ham_cost" name = "ham_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="ham_pred" name = "ham_pred" class="prediction_box" type="text" readonly> </input></td>
+			</tr>
+			<tr>
+			  <td >Lance Stroll</td>
+			  <td><input id="str_fp1" name = "str_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="str_fp2" name = "str_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="str_fp3" name = "str_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="str_cost" name = "str_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="str_pred" name = "str_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			   <tr>
-			  <td>Lewis Hamilton</td>
-			  <td><input id="ham_fp1" name = "ham_fp1" type="text" required> </input></td>
-			  <td><input id="ham_fp2" name = "ham_fp2" type="text" required> </input></td>
-			  <td><input id="ham_fp3" name = "ham_fp3" type="text" required> </input></td>
-			  <td><input id="ham_cost" name = "ham_cost" type="text" required> </input></td>
-			  <td><input id="ham_pred" name = "ham_pred" type="text" readonly> </input></td>
-			</tr>
-			   <tr>
-			  <td>Lance Stroll</td>
-			  <td><input id="str_fp1" name = "str_fp1" type="text" required> </input></td>
-			  <td><input id="str_fp2" name = "str_fp2" type="text" required> </input></td>
-			  <td><input id="str_fp3" name = "str_fp3" type="text" required> </input></td>
-			  <td><input id="str_cost" name = "str_cost" type="text" required> </input></td>
-			  <td><input id="str_pred" name = "str_pred" type="text" readonly> </input></td>
-			</tr>
-			   <tr>
-			  <td>George Russell</td>
-			  <td><input id="rus_fp1" name = "rus_fp1" type="text" required> </input></td>
-			  <td><input id="rus_fp2" name = "rus_fp2" type="text" required> </input></td>
-			  <td><input id="rus_fp3" name = "rus_fp3" type="text" required> </input></td>
-			  <td><input id="rus_cost" name = "rus_cost" type="text" required> </input></td>
-			  <td><input id="rus_pred" name = "rus_pred" type="text" readonly> </input></td>
+			  <td >George Russell</td>
+			  <td><input id="rus_fp1" name = "rus_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="rus_fp2" name = "rus_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="rus_fp3" name = "rus_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="rus_cost" name = "rus_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="rus_pred" name = "rus_pred" class="prediction_box" type="text" readonly> </input></td>
 
 			</tr>
 			   <tr>
-			  <td>Zhou Guanyu</td>
-			  <td><input id="zhou_fp1" name = "zhou_fp1" type="text" required> </input></td>
-			  <td><input id="zhou_fp2" name = "zhou_fp2" type="text" required> </input></td>
-			  <td><input id="zhou_fp3" name = "zhou_fp3" type="text" required> </input></td>
-			  <td><input id="zhou_cost" name = "zhou_cost" type="text" required> </input></td>
-			  <td><input id="zhou_pred" name = "zhou_pred" type="text" readonly> </input></td>
+			  <td >Zhou Guanyu</td>
+			  <td><input id="zhou_fp1" name = "zhou_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="zhou_fp2" name = "zhou_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="zhou_fp3" name = "zhou_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="zhou_cost" name = "zhou_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="zhou_pred" name = "zhou_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			   <tr>
-			  <td>Alex Albon</td>
-			  <td><input id="albon_fp1" name = "albon_fp1" type="text" required> </input></td>
-			  <td><input id="albon_fp2" name = "albon_fp2" type="text" required> </input></td>
-			  <td><input id="albon_fp3" name = "albon_fp3" type="text" required> </input></td>
-			  <td><input id="albon_cost" name = "albon_cost" type="text" required> </input></td>
-			  <td><input id="albon_pred" name = "albon_pred" type="text" readonly> </input></td>
+			  <td >Alex Albon</td>
+			  <td><input id="albon_fp1" name = "albon_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="albon_fp2" name = "albon_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="albon_fp3" name = "albon_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="albon_cost" name = "albon_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="albon_pred" name = "albon_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			   <tr>
-			  <td>Valteri Bottas</td>
-			  <td><input id="bot_fp1" name = "bot_fp1" type="text" required> </input></td>
-			  <td><input id="bot_fp2" name = "bot_fp2" type="text" required> </input></td>
-			  <td><input id="bot_fp3" name = "bot_fp3" type="text" required> </input></td>
-			  <td><input id="bot_cost" name = "bot_cost" type="text" required> </input></td>
-			  <td><input id="bot_pred" name = "bot_pred" type="text" readonly> </input></td>
+			  <td >Valteri Bottas</td>
+			  <td><input id="bot_fp1" name = "bot_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="bot_fp2" name = "bot_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="bot_fp3" name = "bot_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="bot_cost" name = "bot_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="bot_pred" name = "bot_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			 <tr>
-			  <td>Logan Sargent</td>
-			  <td><input id="srg_fp1" name = "srg_fp1" type="text" required> </input></td>
-			  <td><input id="srg_fp2" name = "srg_fp2" type="text" required> </input></td>
-			  <td><input id="srg_fp3" name = "srg_fp3" type="text" required> </input></td>
-			  <td><input id="srg_cost" name = "srg_cost" type="text" required> </input></td>
-			  <td><input id="srg_pred" name = "srg_pred" type="text" readonly> </input></td>
+			  <td >Logan Sargent</td>
+			  <td><input id="srg_fp1" name = "srg_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="srg_fp2" name = "srg_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="srg_fp3" name = "srg_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="srg_cost" name = "srg_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="srg_pred" name = "srg_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Yuki Tsunoda</td>
-			  <td><input id="tsu_fp1" name = "tsu_fp1" type="text" required> </input></td>
-			  <td><input id="tsu_fp2" name = "tsu_fp2" type="text" required> </input></td>
-			  <td><input id="tsu_fp3" name = "tsu_fp3" type="text" required> </input></td>
-			  <td><input id="tsu_cost" name = "tsu_cost" type="text" required> </input></td>
-			  <td><input id="tsu_pred" name = "tsu_pred" type="text" readonly> </input></td>
+			  <td >Yuki Tsunoda</td>
+			  <td><input id="tsu_fp1" name = "tsu_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="tsu_fp2" name = "tsu_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="tsu_fp3" name = "tsu_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="tsu_cost" name = "tsu_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="tsu_pred" name = "tsu_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 				 <tr>
-			  <td>Lawson</td>
-			  <td><input id="nick_fp1" name = "nick_fp1" type="text" required> </input></td>
-			  <td><input id="nick_fp2" name = "nick_fp2" type="text" required> </input></td>
-			  <td><input id="nick_fp3" name = "nick_fp3" type="text" required> </input></td>
-			  <td><input id="nick_cost" name = "nick_cost" type="text" required> </input></td>
-			  <td><input id="nick_pred" name = "nick_pred" type="text" readonly> </input></td>
+			  <td >Lawson</td>
+			  <td><input id="nick_fp1" name = "nick_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="nick_fp2" name = "nick_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="nick_fp3" name = "nick_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="nick_cost" name = "nick_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="nick_pred" name = "nick_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Kevin Magnussen</td>
-			  <td><input id="mag_fp1" name = "mag_fp1" type="text" required> </input></td>
-			  <td><input id="mag_fp2" name = "mag_fp2" type="text" required> </input></td>
-			  <td><input id="mag_fp3" name = "mag_fp3" type="text" required> </input></td>
-			  <td><input id="mag_cost" name = "mag_cost" type="text" required> </input></td>
-			  <td><input id="mag_pred" name = "mag_pred" type="text" readonly> </input></td>
+			  <td >K Mag</td>
+			  <td><input id="mag_fp1" name = "mag_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="mag_fp2" name = "mag_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="mag_fp3" name = "mag_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="mag_cost" name = "mag_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="mag_pred" name = "mag_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Nico Hulkenberg</td>
-			  <td><input id="hulk_fp1" name = "hulk_fp1" type="text" required> </input></td>
-			  <td><input id="hulk_fp2" name = "hulk_fp2" type="text" required> </input></td>
-			  <td><input id="hulk_fp3" name = "hulk_fp3" type="text" required> </input></td>
-			  <td><input id="hulk_cost" name = "hulk_cost" type="text" required> </input></td>
-			  <td><input id="hulk_pred" name = "hulk_pred" type="text" readonly> </input></td>
+			  <td >Nico Hulkenberg</td>
+			  <td><input id="hulk_fp1" name = "hulk_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="hulk_fp2" name = "hulk_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="hulk_fp3" name = "hulk_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="hulk_cost" name = "hulk_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="hulk_pred" name = "hulk_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Lando Norris</td>
-			  <td><input id="nor_fp1" name = "nor_fp1" type="text" required> </input></td>
-			  <td><input id="nor_fp2" name = "nor_fp2" type="text" required> </input></td>
-			  <td><input id="nor_fp3" name = "nor_fp3" type="text" required> </input></td>
-			  <td><input id="nor_cost" name = "nor_cost" type="text" required> </input></td>
-			  <td><input id="nor_pred" name = "nor_pred" type="text" readonly> </input></td>
+			  <td >Lando Norris</td>
+			  <td><input id="nor_fp1" name = "nor_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="nor_fp2" name = "nor_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="nor_fp3" name = "nor_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="nor_cost" name = "nor_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="nor_pred" name = "nor_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 				  <tr>
-			  <td>Charles Leclerc</td>
-			  <td><input id="lec_fp1" name = "lec_fp1" type="text" required> </input></td>
-			  <td><input id="lec_fp2" name = "lec_fp2" type="text" required> </input></td>
-			  <td><input id="lec_fp3" name = "lec_fp3" type="text" required> </input></td>
-			  <td><input id="lec_cost" name = "lec_cost" type="text" required> </input></td>
-			  <td><input id="lec_pred" name = "lec_pred" type="text" readonly> </input></td>
+			  <td >Charles Leclerc</td>
+			  <td><input id="lec_fp1" name = "lec_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="lec_fp2" name = "lec_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="lec_fp3" name = "lec_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="lec_cost" name = "lec_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="lec_pred" name = "lec_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Oscar Piastri</td>
-			  <td><input id="pia_fp1" name = "pia_fp1" type="text" required> </input></td>
-			  <td><input id="pia_fp2" name = "pia_fp2" type="text" required> </input></td>
-			  <td><input id="pia_fp3" name = "pia_fp3" type="text" required> </input></td>
-			  <td><input id="pia_cost" name = "pia_cost" type="text" required> </input></td>
-			  <td><input id="pia_pred" name = "pia_pred" type="text" readonly> </input></td>
+			  <td >Oscar Piastri</td>
+			  <td><input id="pia_fp1" name = "pia_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="pia_fp2" name = "pia_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="pia_fp3" name = "pia_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="pia_cost" name = "pia_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="pia_pred" name = "pia_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 			<tr>
-			  <td>Esteban Ocon</td>
-			  <td><input id="oco_fp1" name = "oco_fp1" type="text" required> </input></td>
-			  <td><input id="oco_fp2" name = "oco_fp2" type="text" required> </input></td>
-			  <td><input id="oco_fp3" name = "oco_fp3" type="text" required> </input></td>
-			  <td><input id="oco_cost" name = "oco_cost" type="text" required> </input></td>
-			  <td><input id="oco_pred" name = "oco_pred" type="text" readonly> </input></td>
+			  <td >Esteban Ocon</td>
+			  <td><input id="oco_fp1" name = "oco_fp1" class="input-box" type="text" required> </input></td>
+			  <td><input id="oco_fp2" name = "oco_fp2" class="input-box" type="text" required> </input></td>
+			  <td><input id="oco_fp3" name = "oco_fp3" class="input-box" type="text" required> </input></td>
+			  <td><input id="oco_cost" name = "oco_cost" class="input-box" type="text" required> </input></td>
+			  <td><input id="oco_pred" name = "oco_pred" class="prediction_box" type="text" readonly> </input></td>
 			</tr>
 		  </table>
 		  <input type="button" value="Predict" onClick="submitForPrediction()"></input>
@@ -331,4 +346,9 @@
 		</form>
 	</div>	
 </body>
+<script>
+	var defaultButton = document.getElementById("defaultOpen");
+	console.log(defaultButton)
+	defaultButton.click();
+</script>
 </html>
